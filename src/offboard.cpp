@@ -5,6 +5,7 @@
 #include <geometry_msgs/PoseStamped.h>
 
 #define DISTANCE 10
+#define DISERROR 1
 
 
 mavros_msgs::State current_state;
@@ -99,13 +100,13 @@ int main(int argc, char **argv)
 			{
 				switch (step)
 				{
-				case 0:
+				case 0:  // first point  0  0  10
 					//take off to 2m
 					pose.pose.position.x = 0;
 					pose.pose.position.y = 0;
 					pose.pose.position.z = DISTANCE;
-					//
-					if (local_pos.pose.position.z > (DISTANCE-0.1) && local_pos.pose.position.z < (DISTANCE+0.1))
+					//dont care x and y ,only need z = distance
+					if (local_pos.pose.position.z > (DISTANCE-DISERROR) && local_pos.pose.position.z < (DISTANCE+DISERROR))
 					{
 						if (sametimes > 100)
 						{
@@ -125,9 +126,9 @@ int main(int argc, char **argv)
 					}
 					local_pos_pub.publish(pose);
 					break;
-				case 1:
+				case 1: //seconde  10  0 10 
 					
-					if (local_pos.pose.position.x > (DISTANCE -0.1) && local_pos.pose.position.x < (DISTANCE + 0.1))
+					if (local_pos.pose.position.x > (DISTANCE -DISERROR) && local_pos.pose.position.x < (DISTANCE + DISERROR))
 					{
 						if (sametimes > 100)
 						{
@@ -146,9 +147,9 @@ int main(int argc, char **argv)
 					}
 					local_pos_pub.publish(pose);
 					break;
-				case 2:
+				case 2:   //10 10  10
 					
-					if (local_pos.pose.position.y > (DISTANCE - 0.1) && local_pos.pose.position.y < (DISTANCE +0.1))
+					if (local_pos.pose.position.y > (DISTANCE - DISERROR) && local_pos.pose.position.y < (DISTANCE +DISERROR))
 					{
 						if (sametimes > 100)
 						{
@@ -167,9 +168,9 @@ int main(int argc, char **argv)
 					}
 					local_pos_pub.publish(pose);
 					break;
-				case 3:
+				case 3: // 0 10 10
 					
-					if (local_pos.pose.position.x > -0.1 && local_pos.pose.position.x < 0.1)
+					if (local_pos.pose.position.x > -DISERROR && local_pos.pose.position.x < DISERROR)
 					{
 						if (sametimes > 100)
 						{
@@ -188,13 +189,13 @@ int main(int argc, char **argv)
 					}
 					local_pos_pub.publish(pose);
 					break;
-				case 4:
+				case 4:  // 0 0 10
 					
-					if (local_pos.pose.position.y > -0.1 && local_pos.pose.position.y < 0.1)// position ok
+					if (local_pos.pose.position.y > -DISERROR && local_pos.pose.position.y < DISERROR)// position ok
 					{
 						if (sametimes > 100)
 						{
-							step = 5;
+							step = 0;  //return loop fly to 10 0 10 
 						}
 						else
 							sametimes++;

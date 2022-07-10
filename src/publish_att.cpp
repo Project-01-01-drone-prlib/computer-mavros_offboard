@@ -155,14 +155,15 @@ int main (int argc,char** argv)
                 }
                 else
                 {
+                    ROS_INFO("enter offboard and armed");
                     //ROS_INFO_STREAM("don't enter the if armed....");
                 }    
             }
         }
         
         ned_euler.x = 0;
-        ned_euler.y = 0;
-        ned_euler.z = PI/6;
+        ned_euler.y = PI/18/2;// 10
+        ned_euler.z = PI/3;// 30 deg
         enu_euler = ned2enu_angle(ned_euler);
         q = euler_to_quat(enu_euler);
         thr = thrust_scale(40);
